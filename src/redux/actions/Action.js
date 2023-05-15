@@ -18,3 +18,10 @@ export const REMOVE = (iteam) => {
         payload: iteam
     }
 }
+
+export const INCREMENT = (add) => {
+return {
+    type : "INCREMENT_CART",
+    payload: add
+}
+}
