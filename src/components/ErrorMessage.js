@@ -1,37 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import './Style.css';
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import "./Style.css";
 const ErrorMessage = () => {
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const errorHandler = useSelector((state) => state.cartreducer.errorMessage);
 
   useEffect(() => {
     setErrorMessage(errorHandler);
-  }, [errorHandler]); 
+  }, [errorHandler]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setErrorMessage(''); 
-    }, 10000); 
+      setErrorMessage("");
+    }, 10000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [errorHandler]); // 
+  }, [errorHandler]); //
 
   return (
     <div>
-    {errorMessage && (
-      <div className="error-overlay">
-        <div className="error-message">
-          {errorMessage}
+      {errorMessage && (
+        <div className="error-overlay">
+          <div className="error-message">{errorMessage}</div>
         </div>
-      </div>
-    )}
+      )}
     </div>
   );
 };
 
 export default ErrorMessage;
-

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {DLT, REMOVE, INCREMENT } from "../redux/actions/Action";
+import { DLT, REMOVE, INCREMENT } from "../redux/actions/Action";
 
 const CardsDetails = () => {
   const [data, setData] = useState([]);
-  
+
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -23,8 +23,8 @@ const CardsDetails = () => {
 
   const send = (e) => {
     dispatch(INCREMENT(e));
-  }
-   
+  };
+
   const dlt = (id) => {
     dispatch(DLT(id));
     history("/");
@@ -36,39 +36,45 @@ const CardsDetails = () => {
 
   useEffect(() => {
     compare();
-    
   }, [id]);
 
   return (
     <>
       <div className="container mt-2">
-    
         <h2 className="text-center ">Item Details Page</h2>
         <section className="mt-4">
           <div className="itemsdetails">
-            {data.map((ele,index) => {
+            {data.map((ele, index) => {
               return (
                 <>
                   <div className="items_img">
-                    <img className="mx-3" src={ele.imageURL} alt="" key={index}/>
+                    <img
+                      className="mx-3"
+                      src={ele.imageURL}
+                      alt=""
+                      key={index}
+                    />
                   </div>
                   <div className="details">
                     <table className="table table-borderless">
-                      <tr className="d-flex flex-column mt-3" style={{display:"flex", gap:"20px 70px"}}>
+                      <tr
+                        className="d-flex flex-column mt-3"
+                        style={{ display: "flex", gap: "20px 70px" }}
+                      >
                         <td>
-                          <strong>Name  </strong>
+                          <strong>Name </strong>
                           {ele.name}
                         </td>
                         <td>
-                          <strong>Color  </strong>
+                          <strong>Color </strong>
                           {ele.color}
                         </td>
                         <td>
-                          <strong>Type  </strong>
+                          <strong>Type </strong>
                           {ele.type}
                         </td>
                         <td>
-                          <strong>Price  </strong>₹ {ele.price}
+                          <strong>Price </strong>₹ {ele.price}
                         </td>
                         <div
                           className="mt-5 d-flex justify-content-between align-items-center bg-secondary text-light"

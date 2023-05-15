@@ -32,14 +32,14 @@ const Header = () => {
     <>
       <nav
         className="navbar navbar-expand-lg navbar navbar-dark bg-dark"
-        style={{ height: 60, width: "100vw", position:"fixed",margin:"0" }}
+        style={{ height: 60, width: "100vw", position: "fixed", margin: "0" }}
       >
         <div className="container">
           <h5 className="text-white">TeeRex Store</h5>
           <div className="dropdown">
-          <Link className="navbar-brand mx-5" to="/">
-           Products
-          </Link>
+            <Link className="navbar-brand mx-5" to="/">
+              Products
+            </Link>
             <Link
               className="fa-solid fa-cart-shopping text-light position-relative"
               style={{ fontSize: 25, cursor: "pointer" }}
@@ -93,9 +93,15 @@ const Header = () => {
                                   </NavLink>
                                 </td>
                                 <td>
-                                  <p><strong>Name :</strong> {e.name}</p>
-                                  <p><strong>Price :</strong> ₹{e.price}</p>
-                                  <p><strong>Quantity :</strong> {e.quantity}</p>
+                                  <p>
+                                    <strong>Name :</strong> {e.name}
+                                  </p>
+                                  <p>
+                                    <strong>Price :</strong> ₹{e.price}
+                                  </p>
+                                  <p>
+                                    <strong>Quantity :</strong> {e.quantity}
+                                  </p>
                                   <p
                                     style={{
                                       color: "red",
@@ -107,12 +113,12 @@ const Header = () => {
                                     <i className="fas fa-trash smalltrash"></i>
                                   </p>
                                   <td className="bg-light">
-                                  <NavLink to={`/cart/${e.id}`}>
-                                    Details
+                                    <NavLink to={`/cart/${e.id}`}>
+                                      Details
                                     </NavLink>
                                   </td>
                                 </td>
-                                
+
                                 <td
                                   className="m-5"
                                   style={{
@@ -123,14 +129,15 @@ const Header = () => {
                                   onClick={() => dlt(e.id)}
                                 >
                                   <i className="fas fa-trash largetrash m-4"></i>
-                                
                                 </td>
                               </tr>
                             </>
                           );
                         })}
                         <tr>
-                        <td className="text-center mt-1"><strong>Total :</strong> ₹{price}</td>
+                          <td className="text-center mt-1">
+                            <strong>Total :</strong> ₹{price}
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -138,7 +145,7 @@ const Header = () => {
                 ) : (
                   <div
                     className="card_details d-flex justify-content-center align-items-center mt-2"
-                    style={{ padding: "10px"}}
+                    style={{ padding: "10px" }}
                   >
                     <i
                       className="fas fa-close"
@@ -151,8 +158,10 @@ const Header = () => {
                       }}
                     ></i>
                     <div className="d-flex flex-column justify-content-center align-items-center">
-                    <p className="text-primary mb-0"><strong>Your cart is empty</strong></p>
-                    <img src="./cart.gif" alt="" style={{ width: "50px" }} />
+                      <p className="text-primary mb-0">
+                        <strong>Your cart is empty</strong>
+                      </p>
+                      <img src="./cart.gif" alt="" style={{ width: "50px" }} />
                     </div>
                   </div>
                 )}
