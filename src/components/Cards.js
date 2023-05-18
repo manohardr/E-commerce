@@ -152,8 +152,8 @@ const Cards = () => {
         <div className="row mx-4">
           {searchItem.map((item, id) => {
             return (
-              <>
-                <div className="col-md-4 mb-3" key={id}>
+              <React.Fragment key={id}>
+                <div className="col-md-4 mb-3">
                   <div
                     className="card mx-2 mt-4 card_style"
                     style={{ width: "300px", border: "none" }}
@@ -181,7 +181,7 @@ const Cards = () => {
                     </div>
                   </div>
                 </div>
-              </>
+                </React.Fragment>
             );
           })}
         </div>

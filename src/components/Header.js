@@ -66,81 +66,76 @@ const Header = () => {
                     className="card_details"
                     style={{ width: "24rem", padding: 10 }}
                   >
-                    <table className="table table-sm">
-                      <thead>
-                        <tr className="text-nowrap bg-border">
-                          <th>Photo</th>
-                          <th>Restaurant Name</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {getdata.map((e) => {
-                          return (
-                            <>
-                              <tr>
-                                <td>
-                                  <NavLink to={`/cart/${e.id}`}>
-                                    <img
-                                      src={e.imageURL}
-                                      style={{
-                                        width: "6rem",
-                                        height: "6rem",
-                                        margin: "10px",
-                                      }}
-                                      alt=""
-                                    />
-                                  </NavLink>
-                                </td>
-                                <td>
-                                  <p>
-                                    <strong>Name :</strong> {e.name}
-                                  </p>
-                                  <p>
-                                    <strong>Price :</strong> ₹{e.price}
-                                  </p>
-                                  <p>
-                                    <strong>Quantity :</strong> {e.quantity}
-                                  </p>
-                                  <p
-                                    style={{
-                                      color: "red",
-                                      fontSize: 20,
-                                      cursor: "pointer",
-                                    }}
-                                    onClick={() => dlt(e.id)}
-                                  >
-                                    <i className="fas fa-trash smalltrash"></i>
-                                  </p>
-                                  <td className="bg-light">
-                                    <NavLink to={`/cart/${e.id}`}>
-                                      Details
-                                    </NavLink>
-                                  </td>
-                                </td>
+                   <table className="table table-sm">
+  <thead>
+    <tr className="text-nowrap bg-border">
+      <th>Photo</th>
+      <th>Restaurant Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {getdata.map((e, id) => (
+      <React.Fragment key={id}>
+        <tr>
+          <td>
+            <img
+              src={e.imageURL}
+              style={{
+                width: "6rem",
+                height: "6rem",
+                margin: "10px",
+              }}
+              alt=""
+            />
+          </td>
+          <td>
+            <p>
+              <strong>Name :</strong> {e.name}
+            </p>
+            <p>
+              <strong>Price :</strong> ₹{e.price}
+            </p>
+            <p>
+              <strong>Quantity :</strong> {e.quantity}
+            </p>
+            <p
+              style={{
+                color: "red",
+                fontSize: 20,
+                cursor: "pointer",
+              }}
+              onClick={() => dlt(e.id)}
+            >
+              <i className="fas fa-trash smalltrash"></i>
+            </p>
+          </td>
+          <td
+            className="m-5"
+            style={{
+              color: "red",
+              fontSize: 20,
+              cursor: "pointer",
+            }}
+            onClick={() => dlt(e.id)}
+          >
+            <i className="fas fa-trash largetrash m-4"></i>
+            <div className="bg-light">
+            <NavLink to={`/cart/${e.id}`}>Details</NavLink>
+          </div>
+          </td>
+        </tr>
+        
+      </React.Fragment>
+    ))}
+    <tr>
+      <td className="text-center mt-1">
+        <strong>Total :</strong> ₹{price}
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-                                <td
-                                  className="m-5"
-                                  style={{
-                                    color: "red",
-                                    fontSize: 20,
-                                    cursor: "pointer",
-                                  }}
-                                  onClick={() => dlt(e.id)}
-                                >
-                                  <i className="fas fa-trash largetrash m-4"></i>
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
-                        <tr>
-                          <td className="text-center mt-1">
-                            <strong>Total :</strong> ₹{price}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
                   </div>
                 ) : (
                   <div

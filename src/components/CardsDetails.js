@@ -47,6 +47,7 @@ const CardsDetails = () => {
             {data.map((ele, index) => {
               return (
                 <>
+                <div key={index}>
                   <div className="items_img">
                     <img
                       className="mx-3"
@@ -103,6 +104,7 @@ const CardsDetails = () => {
                         </td>
                       </tr>
                     </table>
+                  </div>
                   </div>
                 </>
               );
