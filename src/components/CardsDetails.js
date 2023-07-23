@@ -1,116 +1,154 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { DLT, REMOVE, INCREMENT } from "../redux/actions/Action";
+import { DLT, REMOVE, INCREMENT, ERRORMESSAGE } from "../redux/actions/Action";
+import "./Style.css";
 
 const CardsDetails = () => {
+  // State to hold the data and total price
   const [data, setData] = useState([]);
+  const [price, setPrice] = useState(0);
 
   const dispatch = useDispatch();
-
-  const { id } = useParams();
-
   const history = useNavigate();
 
+  // Retrieve cart data from Redux store
   const getdata = useSelector((state) => state.cartreducer.carts);
 
-  const compare = () => {
-    let comparedata = getdata.filter((e) => {
-      return e.id == id;
-    });
-    setData(comparedata);
+  useEffect(() => {
+    const calculateTotal = () => {
+      let totalPrice = 0;
+      // Calculate the total price by multiplying each item's price with its quantity
+      getdata.forEach((item) => {
+        totalPrice = item.price * item.quantity + totalPrice;
+      });
+      setPrice(totalPrice);
+    };
+
+    calculateTotal();
+  }, [getdata]);
+
+  useEffect(() => {
+    setData(getdata);
+  }, [getdata]);
+
+  // Function to increment quantity of an item
+  const incrementQuantity = (item) => {
+    // Check if the current quantity in the cart is greater than or equal to the item's quantity
+    if (item.quantity >= item.qnty) {
+      dispatch(ERRORMESSAGE("You have reached the maximum available quantity for this item"));
+    } else {
+      dispatch(INCREMENT(item));
+    }
+  };
+  
+
+  // Function to remove an item from the cart
+  const removeItem = (item) => {
+    dispatch(REMOVE(item));
   };
 
-  const send = (e) => {
-    dispatch(INCREMENT(e));
-  };
-
-  const dlt = (id) => {
+  // Function to delete the entire cart and navigate back to the main page
+  const deleteCart = (id) => {
     dispatch(DLT(id));
     history("/");
   };
 
-  const remove = (item) => {
-    dispatch(REMOVE(item));
+  const deleteCart1 = (id) => {
+    dispatch(DLT(id));
   };
 
-  useEffect(() => {
-    compare();
-  }, [id]);
+  // If the cart is empty, display "Cart is empty" message
+  if (data.length === 0) {
+    return (
+      <div className="container" style={{ marginTop: "80px" }}>
+        <h5 className="text-success">Shopping Cart</h5>
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: "calc(100vh - 160px)" }}
+        >
+          <h2 className="text-success">Cart is empty</h2>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className="container mt-2">
-        <h2 className="text-center ">Item Details Page</h2>
-        <section className="mt-4">
-          <div className="itemsdetails">
-            {data.map((ele, index) => {
-              return (
-                <>
-                <div key={index}>
-                  <div className="items_img">
-                    <img
-                      className="mx-3"
-                      src={ele.imageURL}
-                      alt=""
-                      key={index}
-                    />
-                  </div>
-                  <div className="details">
-                    <table className="table table-borderless">
-                      <tr
-                        className="d-flex flex-column mt-3"
-                        style={{ display: "flex", gap: "20px 70px" }}
+      <div className="container" style={{ marginTop: "80px" }}>
+        <h5 className="text-success">Shopping Cart</h5>
+      </div>
+      <div
+        className="container shadow pt-2 pb-2 d-flex justify-content-center align-items-center card g-2"
+        style={{
+          marginTop: "30px",
+          width: "40%",
+          height: "30%",
+          backgroundColor: "#d7e7f7",
+        }}
+      >
+        <div className="row g-2 m-3">
+          {data.map((item, index) => {
+            return (
+              <React.Fragment key={index}>
+                <div
+                  className="col-md-4 rounded mb-4"
+                  style={{ backgroundColor: "white" }}
+                >
+                  <img
+                    src={item.imageURL}
+                    className="img-fluid rounded p-2"
+                    alt="..."
+                  />
+                </div>
+                <div className="col-md-8 d-flex align-items-center">
+                  <div className="card-body d-flex align-items-center justify-content-center flex-column">
+                    <h5 className="card-title mb-3">{item.name}</h5>
+                    <h5 className="card-title mb-3">Rs. {item.price}</h5>
+                    <div
+                      className="btn-group mb-3"
+                      role="group"
+                      aria-label="Basic mixed styles example"
+                    >
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={
+                          item.quantity <= 1
+                            ? () => deleteCart(item.id)
+                            : () => removeItem(item)
+                        }
                       >
-                        <td>
-                          <strong>Name </strong>
-                          {ele.name}
-                        </td>
-                        <td>
-                          <strong>Color </strong>
-                          {ele.color}
-                        </td>
-                        <td>
-                          <strong>Type </strong>
-                          {ele.type}
-                        </td>
-                        <td>
-                          <strong>Price </strong>₹ {ele.price}
-                        </td>
-                        <div
-                          className="mt-5 d-flex justify-content-between align-items-center bg-secondary text-light"
-                          style={{ width: 100, cursor: "pointer" }}
-                        >
-                          <span
-                            style={{ fontSize: 24 }}
-                            onClick={
-                              ele.quantity <= 1
-                                ? () => dlt(ele.id)
-                                : () => remove(ele)
-                            }
-                          >
-                            -
-                          </span>
-                          <span style={{ fontSize: 24 }}>{ele.quantity}</span>
-                          <span
-                            style={{ fontSize: 24 }}
-                            onClick={() => send(ele)}
-                          >
-                            +
-                          </span>
-                        </div>
-                        <td>
-                          <strong>Total : </strong> ₹ {ele.price * ele.quantity}
-                        </td>
-                      </tr>
-                    </table>
+                        -
+                      </button>
+                      <button type="button" className="btn btn-warning">
+                        {item.quantity}
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-success"
+                        onClick={() => incrementQuantity(item)}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <h5 className="card-text" onClick={() => deleteCart1(item.id)}>
+                      <i className="fas fa-trash largetrash mb-3"></i>
+                    </h5>
                   </div>
-                  </div>
-                </>
-              );
-            })}
-          </div>
-        </section>
+                </div>
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
+      <div
+        className="container h5 card-footer bg-transparent border-light text-center"
+        style={{ width: "40%", marginTop: "20px" }}
+      >
+        <button type="button" className="btn btn-info" style={{ width: "40%" }}>
+          Total Amount: ₹{price}
+        </button>
       </div>
     </>
   );

@@ -1,12 +1,21 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import "./Style.css";
-import { useDispatch} from "react-redux";
-import { ADD } from "../redux/actions/Action";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./Style.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD,
+  FETCHPRODUCTS,
+  SEARCHPRODUCTS,
+  ERRORMESSAGE,
+} from "../redux/actions/Action";
+import Filter from "./Filter";
+
 const Cards = () => {
-  const [data, setData] = useState([]);
-  const [searchItem, setSearchItem] = useState([]);
+  const [filterData, setFilterData] = useState([]);
+  const [count, setCount] = useState({});
+  const [prevItem, setPrevItem] = useState(null);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,176 +23,117 @@ const Cards = () => {
         const response = await axios.get(
           "https://geektrust.s3.ap-southeast-1.amazonaws.com/coding-problems/shopping-cart/catalogue.json"
         );
-        setData(response.data);
-        setSearchItem(response.data);
+        dispatch(FETCHPRODUCTS(response.data));
       } catch (error) {
-        console.log("error available");
+        console.log("Error:", error);
       }
     };
     fetchData();
-  }, []);
+  }, [dispatch]);
 
-  const dispatch = useDispatch();
+  const filterInput = useSelector((state) => state.cartreducer.products);
+
+  useEffect(() => {
+    setFilterData(filterInput);
+  }, [filterInput]);
 
   const send = (e) => {
-    return dispatch(ADD(e));
+    // Check if the previous item exists and its ID is the same as the current item's ID
+    if (prevItem && prevItem.id === e.id) {
+      // Check if the count of the current item has reached its quantity limit
+      if (count[e.id] >= e.quantity) {
+        dispatch(
+          ERRORMESSAGE(
+            "You have reached the maximum available quantity for this item"
+          )
+        );
+        return; // Exit the function early to avoid dispatching the "ADD" action
+      }
+
+      // Increment the count of the current item
+      setCount((prevCount) => ({ ...prevCount, [e.id]: prevCount[e.id] + 1 }));
+    } else {
+      // If the previous item is different or doesn't exist, set the count of the current item to 1
+      setCount((prevCount) => ({ ...prevCount, [e.id]: 1 }));
+    }
+
+    // Dispatch the "ADD" action to add the item to the cart
+    dispatch(ADD(e));
+
+    // Update the prevItem state with the current item
+    setPrevItem(e);
   };
 
   const searchFilter = (value) => {
-    const search = data.filter(
-      (f) =>
-        f.name.toLowerCase().includes(value) ||
-        f.color.toLowerCase().includes(value)
-    );
-    if (search.length == 0) {
-      setSearchItem(data);
-    } else {
-      setSearchItem(search);
-    }
-  };
-
-  const sortingItem = (sort) => {
-    const result = data.filter((curentData) => {
-      if (curentData.gender === sort) {
-        return curentData.gender;
-      } else if (curentData.gender === sort) {
-        return curentData.gender;
-      } else if (curentData.type === sort) {
-        return curentData.type;
-      } else if (curentData.type === sort) {
-        return curentData.type;
-      } else if (curentData.type === sort) {
-        return curentData.type;
-      } else {
-        for (let i = 0; i < sort.length; i++) {
-          if (curentData.price === sort[i]) {
-            return curentData.price;
-          }
-        }
-      }
-    });
-    setSearchItem(result);
+    dispatch(SEARCHPRODUCTS(value));
   };
 
   return (
     <>
       <div className="container p-5">
-        <div className="mt-5 d-flex flex-row justify-content-center align-items-center">
+        <div className="mt-5 mb-5 d-flex flex-row justify-content-center align-items-center">
           <div
-            className="w-50 border border-info d-flex flex-row justify-content-center align-items-center"
-            style={{ borderRadius: "5px" }}
+            className="border border-info d-flex flex-row justify-content-center align-items-center"
+            style={{ borderRadius: "5px", width: "500px" }}
           >
             <i className="fa fa-search m-2"></i>
             <input
               type="text"
               className="form-control border-0"
               id="exampleFormControlInput1"
-              placeholder=" Search for products"
-              onChange={(event) => {
-                searchFilter(event.target.value);
-              }}
+              placeholder="Find products by name, color, type"
+              onChange={(event) => searchFilter(event.target.value)}
             />
           </div>
-
-          <div className="btn-group dropend">
-            <button
-              type="button"
-              className="btn btn-info dropdown-toggle mx-2"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Sort by
-            </button>
-            <ul className="dropdown-menu" style={{ width: "250px" }}>
-              <div className="d-flex flex-column justify-content-center align-items-center">
-                <button
-                  className="btn btn-warning w-50 m-2"
-                  onClick={() => sortingItem("Men")}
-                >
-                  Men
-                </button>
-                <button
-                  className="btn btn-warning w-50 m-2"
-                  onClick={() => sortingItem("Women")}
-                >
-                  Women
-                </button>
-                <button
-                  className="btn btn-warning w-50 m-2"
-                  onClick={() => sortingItem("Polo")}
-                >
-                  Type Polo
-                </button>
-                <button
-                  className="btn btn-warning w-50 m-2"
-                  onClick={() => sortingItem("Hoodie")}
-                >
-                  Type Hoodie
-                </button>
-                <button
-                  className="btn btn-warning w-50 m-2"
-                  onClick={() => sortingItem("Basic")}
-                >
-                  Type Basic
-                </button>
-                <button
-                  className="btn btn-warning w-50 m-2"
-                  onClick={() => sortingItem([250, 300, 350])}
-                >
-                  ₹250 - ₹350
-                </button>
-                <button
-                  className="btn btn-warning w-50 m-2"
-                  onClick={() => sortingItem([350, 500])}
-                >
-                  ₹350 - ₹500
-                </button>
-                <button
-                  className="btn btn-warning w-50 m-2"
-                  onClick={() => setSearchItem(data)}
-                >
-                  All
-                </button>
-              </div>
-            </ul>
+          <div>
+            <Filter />
           </div>
         </div>
 
-        <div className="row mx-4">
-          {searchItem.map((item, id) => {
-            return (
-              <React.Fragment key={id}>
-                <div className="col-md-4 mb-3">
-                  <div
-                    className="card mx-2 mt-4 card_style"
-                    style={{ width: "300px", border: "none" }}
-                  >
-                    <img
-                      src={item.imageURL}
-                      className="card-img-top m-2"
-                      alt="..."
-                      style={{ height: "12rem" }}
-                    />
-                    <div className="card-body" style={{ alignItems: "center" }}>
-                      <h5 className="card-title">{item.name}</h5>
-                      <p className="card-text">
-                        <strong>Price :</strong> ₹ {item.price}
-                      </p>
-
+        <div className="row mx-4 ">
+          {filterData.length > 0 ? (
+            filterData.map((item) => (
+              <div className="col-md-4 mb-3" key={item.id}>
+                <div className="card card_style mx-2 mt-1 p-2">
+                  <img
+                    src={item.imageURL}
+                    className="card-img-top m-2"
+                    alt="..."
+                    style={{ height: "12rem" }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{item.name}</h5>
+                    <p className="card-text">
+                      <strong>Price:</strong> ₹ {item.price}
+                    </p>
+                    {item.quantity > 0 ? (
                       <div className="button_div d-flex justify-content-center">
                         <button
                           className="btn btn-primary col-lg-12"
                           onClick={() => send(item)}
                         >
-                          Add to Card
+                          Add to Cart
                         </button>
                       </div>
-                    </div>
+                    ) : (
+                      <button className="text-center btn btn-danger col-lg-12">
+                        Out of Stock
+                      </button>
+                    )}
                   </div>
                 </div>
-                </React.Fragment>
-            );
-          })}
+              </div>
+            ))
+          ) : (
+            <div
+              className="col-12 d-flex justify-content-center align-items-center"
+              style={{ height: "200px" }}
+            >
+              <div className="text-center">
+                <h2>No products found</h2>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

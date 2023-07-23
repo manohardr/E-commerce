@@ -1,3 +1,25 @@
+export const FETCHPRODUCTS = (alldata) => {
+    return {
+        type : "FETCH_PRODUCTS",
+        payload: alldata
+    }
+}
+
+export const SEARCHPRODUCTS = (searchdata) => {
+    return {
+        type : "SEARCH_PRODUCTS",
+        payload: searchdata
+    }
+}
+
+export const FILTERPRODUCTS = (filterdata) => {
+    return {
+        type : "FILTER_PRODUCTS",
+        payload: filterdata
+    }
+}
+
+
 export const ADD = (item) => {
     return {
         type : "ADD_CART",
@@ -25,3 +47,10 @@ return {
     payload: add
 }
 }
+
+export const ERRORMESSAGE = (error) => {
+    return {
+        type : "ERROR_MESSAGE",
+        payload: error
+    }
+    }

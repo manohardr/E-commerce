@@ -1,12 +1,13 @@
 import React from 'react';
-
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Header from './components/Header';
 import Cards from './components/Cards';
 import CardsDetails from './components/CardsDetails';
 import ErrorMessage from './components/ErrorMessage';
 import './components/Style.css'
+import Header from './components/Header';
+
+
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
 <ErrorMessage/>
   <Routes>
   <Route path='/' element={<Cards />}/>
-  <Route path='/cart/:id' element={<CardsDetails />}/>
+  <Route  path='/cart' element={<CardsDetails />}/>
   </Routes>
    
    </>
