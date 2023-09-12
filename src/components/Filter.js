@@ -6,7 +6,6 @@ import { FILTERPRODUCTS } from "../redux/actions/Action";
 
 const Filter = () => {
   const [filterData, setFilterData] = useState([]);
-  const [allData, setAllData] = useState([]);
   const [filters, setFilters] = useState({}); // State variable for applied filters
 
   const dispatch = useDispatch();
@@ -18,7 +17,6 @@ const Filter = () => {
           "https://geektrust.s3.ap-southeast-1.amazonaws.com/coding-problems/shopping-cart/catalogue.json"
         );
         setFilterData(response.data);
-        setAllData(response.data);
       } catch (error) {
         console.log("Error:", error);
       }
@@ -29,16 +27,18 @@ const Filter = () => {
   const handleFilter = (filter, event) => {
     const appliedFilters = { ...filters };
   
-    // Handle gender, color, and type filters
+    // Handle gender, color, price and type filters
     if (!Array.isArray(appliedFilters[filter.category])) {
       appliedFilters[filter.category] = []; // Initialize as an empty array
     }
   
     if (filter.checked) {
+      // Pushing the value of checked category into appliedFilters
       appliedFilters[filter.category].push(filter.value);
     } else {
       const index = appliedFilters[filter.category].indexOf(filter.value);
       if (index !== -1) {
+        // Removing the value of unchecked category in appliedFilters
         appliedFilters[filter.category].splice(index, 1);
       }
       if (appliedFilters[filter.category].length === 0) {
@@ -46,27 +46,8 @@ const Filter = () => {
       }
     }
   
-    // Handle price filter
-    if (filter.category === "price") {
-      const appliedPriceFilters = appliedFilters.price || []; // Initialize as an empty array if not set
-  
-      if (filter.checked) {
-        // Add the price range to the array
-        appliedPriceFilters.push(filter.value);
-      } else {
-        // Remove the price range from the array
-        const index = appliedPriceFilters.indexOf(filter.value);
-        if (index !== -1) {
-          appliedPriceFilters.splice(index, 1);
-        }
-      }
-  
-      // Set the price filter in the appliedFilters state
-      appliedFilters.price = appliedPriceFilters;
-    }
-  
     setFilters(appliedFilters); // Update the applied filters state
-    dispatch(FILTERPRODUCTS(appliedFilters));
+    dispatch(FILTERPRODUCTS(appliedFilters));// Dispatch action to update the state
   };
   
   const handleReset = () => {
@@ -77,17 +58,13 @@ const Filter = () => {
     setFilters({});
   
     // Uncheck all checkboxes
-    const checkboxes = document.querySelectorAll("input[type=checkbox]");
-    checkboxes.forEach((checkbox) => {
+    const checkBoxes = document.querySelectorAll("input[type=checkbox]");
+    checkBoxes.forEach((checkbox) => {
       checkbox.checked = false;
     });
   };
-  
-  
-  
-
   return (
-    <div className="container">
+    <div>
       <button
         className="btn btn-info"
         type="button"

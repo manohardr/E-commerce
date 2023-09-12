@@ -12,55 +12,22 @@ body{
     width: 100%;
     height: 60px;
     background-color: #f2f2f2;
-    z-index: 999;
+    z-index: 1;
   }
-
-.error-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
-
-.error-message {
-    background-color: #ffcccc;
-  color: #ff0000;
-  padding: 10px;
-}
-
-.card_details{
-    width: 24rem;
-    padding: 5px;
-    margin-top: 70px;
-    z-index: 999;
-}
-
-.imageHeader{
-    width: 6rem;
-    height: 6rem;
-    margin: 10px;
-}
 
 .fa-cart-shopping {
     font-size: 1.5625rem; 
     cursor: pointer;
+
+  }
+ 
+  @media (max-width: 300px){
+    .navbar{
+      height: 80px;
+    }
   }
 
-  .fa-trash{
-   color: red;
-   font-size: 1.25rem;
-   cursor: pointer;   
-  }
-
-
-  /* Cards section */
-
+  /* SearchProduct */
 .search {
     display: flex;
     align-items: center;
@@ -75,8 +42,9 @@ body{
     outline: none; 
   }
 
+  /* Cards section */
   .card{
-    width: 300px;
+    width: auto;
     border: none;
     cursor: pointer;
     transition: .3s;
@@ -85,79 +53,14 @@ body{
   .card_style:hover{
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.082);
 }
+
  
 /*CardsDetails*/
-
-  .itemsdetails{
-      max-width: 800px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.082);
-  }
-  .items_img{
-      flex: .4;
-  }
-  .items_img img{
-      width: 20rem;
-      border-radius: 5px;
-  }
-
-  .details{
-      flex: .5;
-  };
- 
-  
-  @media (max-width:772px){
-      .iteamsdetails{
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-      }
-  }
-  
-  @media (max-width:450px){
-      .emptycart_img{
-          margin-right: 50px;
-      }
-      .smallclose{
-          display: none;
-      }
-  
-      /* individual iteams details */
-     
-      .items_img img{
-          width: 16rem;
-      }
-      
-  }
-
-  /* Shoping carts */
-
-  .shopping_details{
-    display: flex;
-    justify-content: center;
-    margin-top: 70px;
-    background-color: cadetblue;
-    height: 200px;
-    width: 300px;
-  }
-
-  .iteamsdetails .shopping_image{
-    background-image: url('https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg');
-    height: 100px;
-    width: 100px;
-  }
-
-  .img-fluid {
-    width: 400px;
-    height: 200px;
-}
-
-.fa-close:before{
+.fa-trash{
   color: red;
-}
+  font-size: 1.25rem;
+  cursor: pointer;   
+ }
 
 /* Filter */
 

@@ -3,20 +3,24 @@ import { useSelector } from "react-redux";
 import "./Style.css";
 
 const ErrorMessage = () => {
-  const [showToast, setShowToast] = useState(false); // State to control toast visibility
+  const [showToast, setShowToast] = useState(false); // State to control toast
   const [errorMessage, setErrorMessage] = useState("");
 
   const errorHandler = useSelector((state) => state.cartreducer.errorMessage);
 
   useEffect(() => {
     setErrorMessage(errorHandler);
-    if (errorHandler) {
-      setShowToast(true); // Show the toast when errorMessage is updated
-      const timeout = setTimeout(() => {
-        setShowToast(false); // Hide the toast after a delay
-      }, 5000); // Adjust the delay as needed
-      return () => clearTimeout(timeout);
+    if(errorHandler && errorHandler.length === 0){
+    }else {
+      if (errorHandler) {
+        setShowToast(true); // Show the toast when errorMessage is updated
+        const timeOut = setTimeout(() => {
+          setShowToast(false); // Hide the toast after 5000ms delay
+        }, 5000);
+        return () => clearTimeout(timeOut);
+      }
     }
+   
   }, [errorHandler]);
 
   return (

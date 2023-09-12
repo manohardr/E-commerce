@@ -2,21 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Style.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  ADD,
-  FETCHPRODUCTS,
-  SEARCHPRODUCTS,
-  ERRORMESSAGE,
-} from "../redux/actions/Action";
+import { ADD, FETCHPRODUCTS, ERRORMESSAGE } from "../redux/actions/Action";
 import Filter from "./Filter";
+import SearchProduct from "./SearchProduct";
 
 const Cards = () => {
-  const [filterData, setFilterData] = useState([]);
   const [count, setCount] = useState({});
   const [prevItem, setPrevItem] = useState(null);
-
+  const filterData = useSelector((state) => state.cartreducer.products);
   const dispatch = useDispatch();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,16 +25,10 @@ const Cards = () => {
     fetchData();
   }, [dispatch]);
 
-  const filterInput = useSelector((state) => state.cartreducer.products);
-
-  useEffect(() => {
-    setFilterData(filterInput);
-  }, [filterInput]);
-
   const send = (e) => {
-    // Check if the previous item exists and its ID is the same as the current item's ID
+    // Check wether the previous item is existed and it's ID is same as current item's ID
     if (prevItem && prevItem.id === e.id) {
-      // Check if the count of the current item has reached its quantity limit
+      // Check if the count of the current item has reached it's quantity limit
       if (count[e.id] >= e.quantity) {
         dispatch(
           ERRORMESSAGE(
@@ -53,7 +41,7 @@ const Cards = () => {
       // Increment the count of the current item
       setCount((prevCount) => ({ ...prevCount, [e.id]: prevCount[e.id] + 1 }));
     } else {
-      // If the previous item is different or doesn't exist, set the count of the current item to 1
+      // If the previous item is different or If the previous item doesn't exist, set the count of the current item to 1
       setCount((prevCount) => ({ ...prevCount, [e.id]: 1 }));
     }
 
@@ -64,42 +52,36 @@ const Cards = () => {
     setPrevItem(e);
   };
 
-  const searchFilter = (value) => {
-    dispatch(SEARCHPRODUCTS(value));
-  };
-
   return (
     <>
-      <div className="container p-5">
+      <div className="container pt-5">
         <div className="mt-5 mb-5 d-flex flex-row justify-content-center align-items-center">
-          <div
-            className="border border-info d-flex flex-row justify-content-center align-items-center"
-            style={{ borderRadius: "5px", width: "500px" }}
-          >
-            <i className="fa fa-search m-2"></i>
-            <input
-              type="text"
-              className="form-control border-0"
-              id="exampleFormControlInput1"
-              placeholder="Find products by name, color, type"
-              onChange={(event) => searchFilter(event.target.value)}
-            />
+          <div style={{ width: "50%", marginRight: "15PX" }}>
+            <SearchProduct />
           </div>
           <div>
             <Filter />
           </div>
         </div>
 
-        <div className="row mx-4 ">
-          {filterData.length > 0 ? (
+        <div className="row">
+          {filterData === null ? (
+            <div className="text-center">
+              <div className="spinner-border" role="status"></div>
+            </div>
+          ) : filterData.length > 0 ? (
             filterData.map((item) => (
-              <div className="col-md-4 mb-3" key={item.id}>
+              <div
+                className="col-lg-3 col-md-4 col
+               mb-3"
+                key={item.id}
+              >
                 <div className="card card_style mx-2 mt-1 p-2">
                   <img
                     src={item.imageURL}
-                    className="card-img-top m-2"
+                    className="card-img-top img-fluid m-2"
                     alt="..."
-                    style={{ height: "12rem" }}
+                    style={{ maxHeight: "8rem", width: "100%" }}
                   />
                   <div className="card-body">
                     <h5 className="card-title">{item.name}</h5>

@@ -5,34 +5,34 @@ import { DLT, REMOVE, INCREMENT, ERRORMESSAGE } from "../redux/actions/Action";
 import "./Style.css";
 
 const CardsDetails = () => {
-  // State to hold the data and total price
+  // State is to hold the data and total price
   const [data, setData] = useState([]);
   const [price, setPrice] = useState(0);
 
   const dispatch = useDispatch();
   const history = useNavigate();
 
-  // Retrieve cart data from Redux store
-  const getdata = useSelector((state) => state.cartreducer.carts);
+  // Get cart data from Redux store
+  const getData = useSelector((state) => state.cartreducer.carts);
 
   useEffect(() => {
     const calculateTotal = () => {
       let totalPrice = 0;
       // Calculate the total price by multiplying each item's price with its quantity
-      getdata.forEach((item) => {
+      getData.forEach((item) => {
         totalPrice = item.price * item.quantity + totalPrice;
       });
       setPrice(totalPrice);
     };
 
     calculateTotal();
-  }, [getdata]);
+  }, [getData]);
 
   useEffect(() => {
-    setData(getdata);
-  }, [getdata]);
+    setData(getData);
+  }, [getData]);
 
-  // Function to increment quantity of an item
+  // Function is for incrementing the quantity of item
   const incrementQuantity = (item) => {
     // Check if the current quantity in the cart is greater than or equal to the item's quantity
     if (item.quantity >= item.qnty) {
@@ -43,22 +43,23 @@ const CardsDetails = () => {
   };
   
 
-  // Function to remove an item from the cart
-  const removeItem = (item) => {
+  // Function is for decrementing the quantity of item
+  const decrementQuantity = (item) => {
     dispatch(REMOVE(item));
   };
 
-  // Function to delete the entire cart and navigate back to the main page
+  // Function is for deleting the entire cart and navigating back to the products page
   const deleteCart = (id) => {
     dispatch(DLT(id));
     history("/");
   };
 
-  const deleteCart1 = (id) => {
+  // Function is for deleting card
+  const deleteCard = (id) => {
     dispatch(DLT(id));
   };
 
-  // If the cart is empty, display "Cart is empty" message
+  // If the cart is empty, display the message"Cart is empty"
   if (data.length === 0) {
     return (
       <div className="container" style={{ marginTop: "80px" }}>
@@ -116,7 +117,7 @@ const CardsDetails = () => {
                         onClick={
                           item.quantity <= 1
                             ? () => deleteCart(item.id)
-                            : () => removeItem(item)
+                            : () => decrementQuantity(item)
                         }
                       >
                         -
@@ -132,7 +133,7 @@ const CardsDetails = () => {
                         +
                       </button>
                     </div>
-                    <h5 className="card-text" onClick={() => deleteCart1(item.id)}>
+                    <h5 className="card-text" onClick={() => deleteCard(item.id)}>
                       <i className="fas fa-trash largetrash mb-3"></i>
                     </h5>
                   </div>
@@ -144,7 +145,7 @@ const CardsDetails = () => {
       </div>
       <div
         className="container h5 card-footer bg-transparent border-light text-center"
-        style={{ width: "40%", marginTop: "20px" }}
+        style={{ width: "60%", marginTop: "20px" }}
       >
         <button type="button" className="btn btn-info" style={{ width: "40%" }}>
           Total Amount: ₹{price}

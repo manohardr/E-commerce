@@ -2,18 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 const Header = () => {
-  const getdata = useSelector((state) => state.cartreducer.carts);
+  const getData = useSelector((state) => state.cartreducer.carts);
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="container-fluid navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
-          <h5 className="text-white">TeeRex Store</h5>
+          <h5 className="text-info storeName">TeeRex Store</h5>
           <div className="dropdown">
-            <Link className="navbar-brand mx-5 text-white" to="/">
+            <Link className="navbar-brand mx-auto text-white" to="/">
               Products
             </Link>
-            {getdata.length} ? (
+            {getData.length} ? (
             <Link
               to="/cart"
               className="fa-solid fa-cart-shopping text-light position-relative"
@@ -23,7 +23,7 @@ const Header = () => {
                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
                 style={{ fontSize: "0.625rem" }}
               >
-                {getdata.length}
+                {getData.length}
               </span>
             </Link>
             )
