@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import "./Style.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,9 +7,8 @@ import Filter from "./Filter";
 import SearchProduct from "./SearchProduct";
 
 const Cards = () => {
-
   const filterData = useSelector((state) => state.cartreducer.products);
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,9 +26,9 @@ const Cards = () => {
   }, [dispatch]);
 
   //Function to send data to Cart
-   const send = (e) => {
+  const send = (e) => {
     dispatch(ADD(e));
-   };
+  };
 
   return (
     <>

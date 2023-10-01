@@ -2,7 +2,6 @@ const INIT_STATE = {
   allData: [],
   products: null,
   carts: [],
-  countQuantity: {},
   errorMessage: [],
 };
 
@@ -131,7 +130,7 @@ export const cartreducer = (state = INIT_STATE, action) => {
 
     case "INCREMENT_CART":
       const errorMessageHandler1 =
-      "You have reached the maximum available quantity for this item";
+        "You have reached the maximum available quantity for this item";
       // Find the index of item whose id matches with action.payload.id
       const itemIndex1 = state.carts.findIndex(
         (item) => item.id === action.payload.id
@@ -158,7 +157,7 @@ export const cartreducer = (state = INIT_STATE, action) => {
       };
 
     case "RMV_ONE":
-       // Find the index of item whose id matches with action.payload.id
+      // Find the index of item whose id matches with action.payload.id
       const itemIndex2 = state.carts.findIndex(
         (item) => item.id === action.payload.id
       );
