@@ -2,6 +2,7 @@ const INIT_STATE = {
   allData: [],
   products: null,
   carts: [],
+  countQuantity: {},
   errorMessage: [],
 };
 
@@ -96,17 +97,27 @@ export const cartreducer = (state = INIT_STATE, action) => {
       };
 
     case "ADD_CART":
+      const errorMessageHandler =
+        "You have reached the maximum available quantity for this item";
       // Find the index of item whose id matches with action.payload.id
       const itemIndex = state.carts.findIndex(
         (item) => item.id === action.payload.id
       );
+
       if (itemIndex >= 0) {
         const updatedCarts = [...state.carts];
-        updatedCarts[itemIndex].quantity += 1; // Increment the quantity
-        return {
-          ...state,
-          carts: updatedCarts,
-        };
+        if (updatedCarts[itemIndex].quantity >= action.payload.quantity) {
+          return {
+            ...state,
+            errorMessage: [...errorMessageHandler],
+          };
+        } else {
+          updatedCarts[itemIndex].quantity += 1; // Increment the quantity
+          return {
+            ...state,
+            carts: updatedCarts,
+          };
+        }
       } else {
         // If item doesn't exist in the cart, set quantity to 1
         return {
@@ -119,15 +130,25 @@ export const cartreducer = (state = INIT_STATE, action) => {
       }
 
     case "INCREMENT_CART":
-       // Find the index of item whose id matches with action.payload.id
+      const errorMessageHandler1 =
+      "You have reached the maximum available quantity for this item";
+      // Find the index of item whose id matches with action.payload.id
       const itemIndex1 = state.carts.findIndex(
         (item) => item.id === action.payload.id
       );
-      state.carts[itemIndex1].quantity += 1;// Increment the quantity
-      return {
-        ...state,
-        carts: [...state.carts],
-      };
+      const updatedCarts = [...state.carts];
+      if (updatedCarts[itemIndex1].quantity >= action.payload.qnty) {
+        return {
+          ...state,
+          errorMessage: [...errorMessageHandler1],
+        };
+      } else {
+        updatedCarts[itemIndex1].quantity += 1; // Increment the quantity
+        return {
+          ...state,
+          carts: updatedCarts,
+        };
+      }
 
     case "RMV_CART":
       const data = state.carts.filter((el) => el.id !== action.payload); // Remove the card by using filter method
@@ -137,6 +158,7 @@ export const cartreducer = (state = INIT_STATE, action) => {
       };
 
     case "RMV_ONE":
+       // Find the index of item whose id matches with action.payload.id
       const itemIndex2 = state.carts.findIndex(
         (item) => item.id === action.payload.id
       );
@@ -150,7 +172,7 @@ export const cartreducer = (state = INIT_STATE, action) => {
             carts: updatedCarts,
           };
         } else {
-          const data = state.carts.filter((el) => el.id !== action.payload.id);// Remove the card by using filter method
+          const data = state.carts.filter((el) => el.id !== action.payload.id); // Remove the card by using filter method
           return {
             ...state,
             carts: data,
@@ -159,12 +181,6 @@ export const cartreducer = (state = INIT_STATE, action) => {
       }
 
       break;
-
-    case "ERROR_MESSAGE":
-      return {
-        ...state,
-        errorMessage: [...action.payload],
-      };
 
     default:
       return state;

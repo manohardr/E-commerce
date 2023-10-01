@@ -34,14 +34,8 @@ const CardsDetails = () => {
 
   // Function is for incrementing the quantity of item
   const incrementQuantity = (item) => {
-    // Check if the current quantity in the cart is greater than or equal to the item's quantity
-    if (item.quantity >= item.qnty) {
-      dispatch(ERRORMESSAGE("You have reached the maximum available quantity for this item"));
-    } else {
-      dispatch(INCREMENT(item));
-    }
+    dispatch(INCREMENT(item));
   };
-  
 
   // Function is for decrementing the quantity of item
   const decrementQuantity = (item) => {
@@ -133,7 +127,10 @@ const CardsDetails = () => {
                         +
                       </button>
                     </div>
-                    <h5 className="card-text" onClick={() => deleteCard(item.id)}>
+                    <h5
+                      className="card-text"
+                      onClick={() => deleteCard(item.id)}
+                    >
                       <i className="fas fa-trash largetrash mb-3"></i>
                     </h5>
                   </div>

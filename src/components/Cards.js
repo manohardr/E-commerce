@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD, FETCHPRODUCTS, ERRORMESSAGE } from "../redux/actions/Action";
+import { ADD, FETCHPRODUCTS } from "../redux/actions/Action";
 import Filter from "./Filter";
 import SearchProduct from "./SearchProduct";
 
 const Cards = () => {
-  const [count, setCount] = useState({});
-  const [prevItem, setPrevItem] = useState(null);
+
   const filterData = useSelector((state) => state.cartreducer.products);
+  
   const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,32 +26,9 @@ const Cards = () => {
     fetchData();
   }, [dispatch]);
 
-  const send = (e) => {
-    // Check wether the previous item is existed and it's ID is same as current item's ID
-    if (prevItem && prevItem.id === e.id) {
-      // Check if the count of the current item has reached it's quantity limit
-      if (count[e.id] >= e.quantity) {
-        dispatch(
-          ERRORMESSAGE(
-            "You have reached the maximum available quantity for this item"
-          )
-        );
-        return; // Exit the function early to avoid dispatching the "ADD" action
-      }
-
-      // Increment the count of the current item
-      setCount((prevCount) => ({ ...prevCount, [e.id]: prevCount[e.id] + 1 }));
-    } else {
-      // If the previous item is different or If the previous item doesn't exist, set the count of the current item to 1
-      setCount((prevCount) => ({ ...prevCount, [e.id]: 1 }));
-    }
-
-    // Dispatch the "ADD" action to add the item to the cart
+   const send = (e) => {
     dispatch(ADD(e));
-
-    // Update the prevItem state with the current item
-    setPrevItem(e);
-  };
+   };
 
   return (
     <>
@@ -72,7 +50,7 @@ const Cards = () => {
           ) : filterData.length > 0 ? (
             filterData.map((item) => (
               <div
-                className="col-lg-3 col-md-4 col
+                className="col-lg-3 col-md-4 coll
                mb-3"
                 key={item.id}
               >

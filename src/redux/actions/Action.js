@@ -19,7 +19,6 @@ export const FILTERPRODUCTS = (filterdata) => {
     }
 }
 
-
 export const ADD = (item) => {
     return {
         type : "ADD_CART",
@@ -47,10 +46,3 @@ return {
     payload: add
 }
 }
-
-export const ERRORMESSAGE = (error) => {
-    return {
-        type : "ERROR_MESSAGE",
-        payload: error
-    }
-    }
