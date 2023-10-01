@@ -26,6 +26,7 @@ const Cards = () => {
     fetchData();
   }, [dispatch]);
 
+  //Function to send data to Cart
    const send = (e) => {
     dispatch(ADD(e));
    };

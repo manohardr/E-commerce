@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { DLT, REMOVE, INCREMENT, ERRORMESSAGE } from "../redux/actions/Action";
+import { DLT, REMOVE, INCREMENT} from "../redux/actions/Action";
 import "./Style.css";
 
 const CardsDetails = () => {
@@ -52,8 +52,7 @@ const CardsDetails = () => {
   const deleteCard = (id) => {
     dispatch(DLT(id));
   };
-
-  // If the cart is empty, display the message"Cart is empty"
+  
   if (data.length === 0) {
     return (
       <div className="container" style={{ marginTop: "80px" }}>
