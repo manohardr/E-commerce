@@ -23,15 +23,14 @@ const Filter = () => {
     };
     fetchData();
   }, []);
-
-  const handleFilter = (filter, event) => {
+console.log(filterData);
+  const handleFilter = (filter) => {
     const appliedFilters = { ...filters };
-  
     // Handle gender, color, price and type filters
     if (!Array.isArray(appliedFilters[filter.category])) {
       appliedFilters[filter.category] = []; // Initialize as an empty array
     }
-  
+
     if (filter.checked) {
       // Pushing the value of checked category into appliedFilters
       appliedFilters[filter.category].push(filter.value);
@@ -45,18 +44,18 @@ const Filter = () => {
         delete appliedFilters[filter.category];
       }
     }
-  
+
     setFilters(appliedFilters); // Update the applied filters state
-    dispatch(FILTERPRODUCTS(appliedFilters));// Dispatch action to update the state
+    dispatch(FILTERPRODUCTS(appliedFilters)); // Dispatch action to update the state
   };
-  
+
   const handleReset = () => {
     // Dispatch action to reset the filters
     dispatch(FILTERPRODUCTS({ all: true }));
-  
+
     // Reset the local filters state
     setFilters({});
-  
+
     // Uncheck all checkboxes
     const checkBoxes = document.querySelectorAll("input[type=checkbox]");
     checkBoxes.forEach((checkbox) => {
@@ -101,7 +100,7 @@ const Filter = () => {
               value=""
               id="flexCheckDefault"
               onChange={(event) =>
-                handleFilter({ category: "all", checked: event.target.checked }, event)
+                handleFilter({ category: "all", checked: event.target.checked })
               }
             />
             <label
@@ -129,10 +128,11 @@ const Filter = () => {
                         value=""
                         id={`gender-${obj.id}`}
                         onChange={(event) =>
-                          handleFilter(
-                            { category: "gender", value: obj.gender, checked: event.target.checked, unchecked: "" },
-                            event
-                          )
+                          handleFilter({
+                            category: "gender",
+                            value: obj.gender,
+                            checked: event.target.checked,
+                          })
                         }
                       />
                       <label
@@ -164,10 +164,11 @@ const Filter = () => {
                         value=""
                         id={`color-${col.id}`}
                         onChange={(event) =>
-                          handleFilter(
-                            { category: "color", value: col.color, checked: event.target.checked },
-                            event
-                          )
+                          handleFilter({
+                            category: "color",
+                            value: col.color,
+                            checked: event.target.checked,
+                          })
                         }
                       />
                       <label
@@ -193,10 +194,11 @@ const Filter = () => {
                     value=""
                     id="price-range-1"
                     onChange={(event) =>
-                      handleFilter(
-                        { category: "price", value: "0-250", checked: event.target.checked },
-                        event
-                      )
+                      handleFilter({
+                        category: "price",
+                        value: "0-250",
+                        checked: event.target.checked,
+                      })
                     }
                   />
                   <label
@@ -220,10 +222,11 @@ const Filter = () => {
                     value=""
                     id="price-range-2"
                     onChange={(event) =>
-                      handleFilter(
-                        { category: "price", value: "250-350", checked: event.target.checked },
-                        event
-                      )
+                      handleFilter({
+                        category: "price",
+                        value: "250-350",
+                        checked: event.target.checked,
+                      })
                     }
                   />
                   <label
@@ -248,7 +251,11 @@ const Filter = () => {
                     id="price-range-3"
                     onChange={(event) =>
                       handleFilter(
-                        { category: "price", value: "350-500", checked: event.target.checked },
+                        {
+                          category: "price",
+                          value: "350-500",
+                          checked: event.target.checked,
+                        },
                         event
                       )
                     }
@@ -282,7 +289,11 @@ const Filter = () => {
                         id={`type-${typ.id}`}
                         onChange={(event) =>
                           handleFilter(
-                            { category: "type", value: typ.type, checked: event.target.checked },
+                            {
+                              category: "type",
+                              value: typ.type,
+                              checked: event.target.checked,
+                            },
                             event
                           )
                         }
