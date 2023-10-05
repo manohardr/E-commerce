@@ -1,29 +1,15 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import "./Style.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FILTERPRODUCTS } from "../redux/actions/Action";
 
 const Filter = () => {
-  const [filterData, setFilterData] = useState([]);
   const [filters, setFilters] = useState({}); // State variable for applied filters
+
+  const filterData = useSelector((state) => state.cartreducer.allData);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://geektrust.s3.ap-southeast-1.amazonaws.com/coding-problems/shopping-cart/catalogue.json"
-        );
-        setFilterData(response.data);
-      } catch (error) {
-        console.log("Error:", error);
-      }
-    };
-    fetchData();
-  }, []);
-console.log(filterData);
   const handleFilter = (filter) => {
     const appliedFilters = { ...filters };
     // Handle gender, color, price and type filters
@@ -119,7 +105,7 @@ console.log(filterData);
             )
             .map((obj) => (
               <div key={obj.id}>
-                <ul className="element">
+                <ul>
                   <li className="my-element">
                     <div className="form-check">
                       <input
@@ -155,7 +141,7 @@ console.log(filterData);
             )
             .map((col) => (
               <div key={col.id}>
-                <ul className="element">
+                <ul>
                   <li className="my-element">
                     <div className="form-check">
                       <input
@@ -185,7 +171,7 @@ console.log(filterData);
 
           <h5>Price</h5>
           <div>
-            <ul className="element">
+            <ul>
               <li className="my-element">
                 <div className="form-check">
                   <input
@@ -213,7 +199,7 @@ console.log(filterData);
           </div>
 
           <div>
-            <ul className="element">
+            <ul>
               <li className="my-element">
                 <div className="form-check">
                   <input
@@ -241,7 +227,7 @@ console.log(filterData);
           </div>
 
           <div>
-            <ul className="element">
+            <ul>
               <li className="my-element">
                 <div className="form-check">
                   <input
@@ -279,7 +265,7 @@ console.log(filterData);
             )
             .map((typ) => (
               <div key={typ.id}>
-                <ul className="element">
+                <ul>
                   <li className="my-element">
                     <div className="form-check">
                       <input
