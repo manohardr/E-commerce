@@ -51,19 +51,13 @@ export const cartreducer = (state = INIT_STATE, action) => {
       const filteredProducts = state.allData.filter((product) => {
         let match = true; // Assuming initially, the product matches the filter criteria.
 
-        if (
-          filters.gender &&
-          !filters.gender.includes(product.gender)
-        ) {
+        if (filters.gender && !filters.gender.includes(product.gender)) {
           match = false; // If it doesn't match, make match to false.
         }
-        if (
-          filters.color &&
-          !filters.color.includes(product.color)
-        ) {
+        if (filters.color && !filters.color.includes(product.color)) {
           match = false; // If it doesn't match, make match to false.
         }
-        if ( filters.price ) {
+        if (filters.price) {
           // Check if the price filter is set.
           const productPrice = +product.price; // Convert the product's price from a string to a number.
           const priceRanges = filters.price.map((range) =>
@@ -78,10 +72,7 @@ export const cartreducer = (state = INIT_STATE, action) => {
             match = false; // If it doesn't match, make match to false.
           }
         }
-        if (
-          filters.type &&
-          !filters.type.includes(product.type)
-        ) {
+        if (filters.type && !filters.type.includes(product.type)) {
           match = false; // If it doesn't match, make match to false.
         }
 
