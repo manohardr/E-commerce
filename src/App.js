@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
 import Cards from './components/Cards';
 import CardsDetails from './components/CardsDetails';
 import ErrorMessage from './components/ErrorMessage';
