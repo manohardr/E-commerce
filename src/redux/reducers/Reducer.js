@@ -39,7 +39,6 @@ export const cartreducer = (state = INIT_STATE, action) => {
 
     case "FILTER_PRODUCTS":
       const filters = action.payload;
-
       if (filters.all) {
         // If "all" category is selected in filters, return the allData which is original data.
         return {
@@ -78,7 +77,7 @@ export const cartreducer = (state = INIT_STATE, action) => {
 
         return match; // Return the product which matches the filter criteria.
       });
-
+      
       return {
         ...state,
         products: filteredProducts, // Set products to the filtered products.

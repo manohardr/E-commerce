@@ -77,17 +77,6 @@ const Filter = () => {
         </div>
         <div className="container-fluid border-top border-success"></div>
         <div className="offcanvas-body">
-          <input
-            type="checkbox"
-            id="flexCheckDefault"
-            onChange={(event) =>
-              handleFilter({ category: "all", checked: event.target.checked })
-            }
-          />
-          <label className="mx-2 list-unstyled" htmlFor="flexCheckDefault">
-            All
-          </label>
-
           <h5>Gender</h5>
           {filterData
             .filter(
