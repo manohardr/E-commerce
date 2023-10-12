@@ -10,8 +10,8 @@ const ErrorMessage = () => {
 
   useEffect(() => {
     setErrorMessage(errorHandler);
-    if(errorHandler && errorHandler.length === 0){
-    }else {
+    if (errorHandler && errorHandler.length === 0) {
+    } else {
       if (errorHandler) {
         setShowToast(true); // Show the toast when errorMessage is updated
         const timeOut = setTimeout(() => {
@@ -20,13 +20,15 @@ const ErrorMessage = () => {
         return () => clearTimeout(timeOut);
       }
     }
-   
   }, [errorHandler]);
 
   return (
     <div>
       {showToast && (
-        <div className="position-fixed bottom-0 end-0 p-3" style={{ zIndex: 5 }}>
+        <div
+          className="position-fixed bottom-0 end-0 p-3"
+          style={{ zIndex: 5 }}
+        >
           <div
             className="toast show bg-primary text-white"
             role="alert"

@@ -77,7 +77,7 @@ export const cartreducer = (state = INIT_STATE, action) => {
 
         return match; // Return the product which matches the filter criteria.
       });
-      
+
       return {
         ...state,
         products: filteredProducts, // Set products to the filtered products.

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { DLT, REMOVE, INCREMENT} from "../redux/actions/Action";
+import { DLT, REMOVE, INCREMENT } from "../redux/actions/Action";
 import "./Style.css";
 
 const ShoppingCart = () => {
@@ -52,7 +52,7 @@ const ShoppingCart = () => {
   const deleteCard = (id) => {
     dispatch(DLT(id));
   };
-  
+
   if (data.length === 0) {
     return (
       <div className="container" style={{ marginTop: "80px" }}>
