@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DLT, REMOVE, INCREMENT} from "../redux/actions/Action";
 import "./Style.css";
 
-const CardsDetails = () => {
+const ShoppingCart = () => {
   // State is to hold the data and total price
   const [data, setData] = useState([]);
   const [price, setPrice] = useState(0);
@@ -151,4 +151,4 @@ const CardsDetails = () => {
   );
 };
 
-export default CardsDetails;
+export default ShoppingCart;
